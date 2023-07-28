@@ -1,0 +1,38 @@
+La ZCA se instala mediante la herramienta de Python dedicada:
+$ pip_install3 zope.component
+>>> from zope.interface import Interface
+>>> from zope.interface import Attribute
+>>> class Iloader(Interface):
+... content = Attribute("""Datos cargados""")
+... def load(filename):
+... """Método de carga de datos"""
+...
+>>> from zope.interface import implements
+>>> class LinesLoader(object):
+... implements(ILoader)
+... content = []
+... def load(self, filename):
+... """Método de carga de datos para un archivo de texto"""
+... with open(filename) as f:
+... content = f.readlines()
+...
+>>> from zope.interface import classImplements
+>>> classImplements(LinesLoader, ILoader)
+>>> def content_is_list(obj):
+... if type(obj.content) != list:
+... raise TypeException(’Los datos no están conformes’)
+...
+>>> class Iloader(Interface):
+... content = Attribute("""Datos cargados""")
+... def load(filename):
+... """Método de carga de datos"""
+... invariant(content_is_list)
+...
+>>> Iloader.implementedBy(LinesLoader)
+True
+>>> loader = LinesLoader()
+>>> Iloader.providedBy(loader)
+True
+Que se instala con:
+Tomemos el ejemplo de un cargador de datos que puede, potencialmente, buscar los datos en cualquier repositorio, como en la sección
+anterior.

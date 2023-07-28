@@ -1,0 +1,31 @@
+import abc
+>>> class Loader(metaclass=abc.ABCMeta):
+... @abc.abstractmethod
+... def load(self, input):
+... return
+
+A continuación, crear subclases para tener clases concretas:
+
+class LinesLoader(Loader):
+... def load(self, input):
+... with open(input) as f:
+... return f.readlines
+
+Y una segunda con otra implementación:
+
+import csv
+>>> class CSVLoader(Loader):
+... def load(self, input):
+... with open(input) as f:
+... return cvs.reader(f.read())
+
+Por último, es posible vincular una clase independiente a una clase abstracta que tenga vínculos de herencia entre ambas clases:
+
+import pickle
+>>> class PickleLoader:
+... def load(self, input):
+... with open(input) as f:
+... return pickle.load(f)
+...
+>>> Loader.register(PickleLoader)
+
